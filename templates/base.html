@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- META -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, inital-scale=1.0">
+        <!-- STYLE/CSS -->
+        {% block styles %}{% endblock %}
+        <!-- ASYNC/DEFER SCRIPTS -->
+        {% block head_scripts %}{% endblock %}
+        <!-- TITLE -->
+        <title>{% block title %}Kanban{% endblock %}</title>
+    </head>
+    <body>
+        <!-- MAIN CONTENT -->
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+        <!-- SCRIPTS -->
+        {% block scripts %}{% endblock %}
+    </body>
+</html>
