@@ -1,3 +1,4 @@
+{% load django_htmx %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,13 +13,12 @@
         >
         {% block styles %}{% endblock %}
         <!-- ASYNC/DEFER SCRIPTS -->
-        <!-- htmx via CDN for quick start, maybe build it later? -->
-        <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz" crossorigin="anonymous" defer></script>
+        {% htmx_script %}
         {% block head_scripts %}{% endblock %}
         <!-- TITLE -->
         <title>{% block title %}Kanban{% endblock %}</title>
     </head>
-    <body>
+    <body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
         <!-- MAIN CONTENT -->
         <main class="container" id="content">
             {% block content %}{% endblock %}
