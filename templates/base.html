@@ -4,18 +4,25 @@
         <!-- META -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, inital-scale=1.0">
+        <meta name="color-scheme" content="light dark">
         <!-- STYLE/CSS -->
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+        >
         {% block styles %}{% endblock %}
         <!-- ASYNC/DEFER SCRIPTS -->
+        <!-- htmx via CDN for quick start, maybe build it later? -->
+        <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.min.js" integrity="sha384-/TgkGk7p307TH7EXJDuUlgG3Ce1UVolAOFopFekQkkXihi5u/6OCvVKyz1W+idaz" crossorigin="anonymous" defer></script>
         {% block head_scripts %}{% endblock %}
         <!-- TITLE -->
         <title>{% block title %}Kanban{% endblock %}</title>
     </head>
     <body>
         <!-- MAIN CONTENT -->
-        <div id="content">
+        <main class="container" id="content">
             {% block content %}{% endblock %}
-        </div>
+        </main>
         <!-- SCRIPTS -->
         {% block scripts %}{% endblock %}
     </body>
