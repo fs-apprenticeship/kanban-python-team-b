@@ -1,9 +1,11 @@
 ## Setup
 ### Requirements
 * Python 3.12+
+* uv (see: [Installing uv](https://docs.astral.sh/uv/getting-started/installation/))
 
 ### Dependencies
-Install: ``python -m pip install -r requirements.txt``
+Install packages: ``uv sync``
+> Note: uv creates a venv for you under ``.venv/`` and will automatically keep it in sync with the package lock.
 
 ### Environment variables
 Make a file in the project root called ``.env``
@@ -16,4 +18,4 @@ print(get_random_secret_key())
 ```
 
 ## Development
-Run dev server: ``python manage.py runserver``
+Run dev server: ``uv run python manage.py runserver``
