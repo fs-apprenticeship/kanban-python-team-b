@@ -1,7 +1,6 @@
 ## Setup
 ### Requirements
-* Python 3.12+
-* uv (see: [Installing uv](https://docs.astral.sh/uv/getting-started/installation/))
+* Python 3.12+ via ``uv`` (see: [Installing uv](https://docs.astral.sh/uv/getting-started/installation/))
 
 ### Dependencies
 Install packages: ``uv sync``
