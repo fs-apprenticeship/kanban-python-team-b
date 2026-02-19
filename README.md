@@ -18,9 +18,11 @@ Make a file in the project root called ``.env`` (see: ``.env.example``)
 from django.core.management.utils import get_random_secret_key
 print(get_random_secret_key())
 ```
-> Note: For development you can just use ``some-string``, but in production it's recommended generate an actual key.
+> Note: For development you can just use ``some-string``, but in production it's recommended to generate an actual key.
 
 ## Development
 Start db container: ``docker compose up -d``
+
 Apply migrations to db: ``uv run manage.py migrate``
+
 Run dev server: ``uv run manage.py runserver``
