@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "0.10.4"
+
+      - name: Install Python dependencies
+        run: uv sync
+
+      - name: Django system check
+        run: uv run manage.py check
+
+      - name: Run tests
+        run: uv run manage.py test
