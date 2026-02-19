@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: "strictly-for-ci"
+      DEBUG: "True"
     steps:
       - uses: actions/checkout@v6
       
