@@ -1,12 +1,13 @@
 from django.contrib import admin
-from .models import Role, User, Team, TeamMember, Project, ProjectTeam, Status, Task, TaskAssignee
+from . import models
 
-admin.site.register(Role)
-admin.site.register(User)
-admin.site.register(Team)
-admin.site.register(TeamMember)
-admin.site.register(Project)
-admin.site.register(ProjectTeam)
-admin.site.register(Status)
-admin.site.register(Task)
-admin.site.register(TaskAssignee)
+admin.site.register(models.Role)
+admin.site.register(models.User)
+admin.site.register(models.Team)
+admin.site.register(models.TeamMember)
+admin.site.register(models.Project)
+admin.site.register(models.ProjectTeam)
+admin.site.register(models.Status)
+admin.site.register(models.Task)
+admin.site.register(models.TaskAssignee)
+admin.site.register(models.TaskComment)

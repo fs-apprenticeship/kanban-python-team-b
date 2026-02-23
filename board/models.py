@@ -214,3 +214,20 @@ class TaskAssignee(models.Model):
 
     def __str__(self):
         return f"{self.user.email} -> {self.task.title}"
+
+
+class TaskComment(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    content = models.TextField(blank=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    task = models.ForeignKey(
+        Task,
+        on_delete=models.CASCADE,
+        related_name="comments",
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="task_comments",
+    )
