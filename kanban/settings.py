@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'board.apps.BoardConfig',
 ]
 
+AUTH_USER_MODEL = "board.User"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
