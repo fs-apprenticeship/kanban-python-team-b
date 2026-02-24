@@ -19,6 +19,25 @@
         <title>{% block title %}Kanban{% endblock %}</title>
     </head>
     <body hx-headers='{"x-csrftoken": "{{ csrf_token }}"}'>
+        <header class="container">
+            <!-- NAVBAR -->
+            <nav>
+                <ul>
+                    <li><strong>Kanban</strong></li>
+                </ul>
+                <ul>
+                    {% if request.user.is_authenticated %}
+                    <li><a href="">My Tasks</a></li>
+                    <li><a href="">Projects</a></li>
+                    <li><a href="">Profile</a></li>
+                    <li><a href="{% url 'board:logout' %}">Logout</a></li>
+                    {% else %}
+                    <!-- TODO: replace with board:login view once created -->
+                    <li><a href="{% url 'admin:login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </header>
         <!-- MAIN CONTENT -->
         <main class="container" id="content">
             {% block content %}{% endblock %}

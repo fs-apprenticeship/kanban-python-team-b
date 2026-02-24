@@ -7,7 +7,7 @@ from .models import User
 class LogoutTest(TestCase):
     def setUp(self):
         self.client = Client()
-        self.logout_url = reverse('logout')
+        self.logout_url = reverse('board:logout')
         self.email = 'test@flatironschool.com'
         self.password = 'password'
         self.user = User.objects.create_user(email=self.email, password=self.password)
