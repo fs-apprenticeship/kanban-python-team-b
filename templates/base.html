@@ -27,7 +27,12 @@
                 </ul>
                 <ul>
                     {% if request.user.is_authenticated %}
-                    <li><a href="">My Tasks</a></li>
+                    <li>
+                        <a href="{% url 'board:index' %}"
+                           {% if request.resolver_match.url_name == 'index' %}aria-current="page"{% endif %}>
+                            My Tasks
+                        </a>
+                    </li>
                     <li><a href="">Projects</a></li>
                     <li><a href="">Profile</a></li>
                     <li><a href="{% url 'board:logout' %}">Logout</a></li>
