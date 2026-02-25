@@ -1,18 +1,20 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
-    "functions": {
-        "kanban/wsgi.py": {
-            "excludeFiles": "{tests/**,__tests__/**,**/*.test.py,**/test_*.py,fixtures/**,__fixtures__/**,testdata/**,sample-data/**,static/**,assets/**}"
-        }
-    },
-    "rewrites": [
+    "builds": [
         {
-            "source": "/static/(.*)",
-            "destination": "/static/$1"
+            "src": "kanban/wsgi.py",
+            "use": "@vercel/python",
+            "config": { "maxLambdaSize": "15mb", "runtime": "python3.14" }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/static/(.*)",
+            "dest": "/static/$1"
         },
         {
-            "source": "/(.*)",
-            "destination": "kanban/wsgi.py"
+            "src": "/(.*)",
+            "dest": "kanban/wsgi.py"
         }
     ]
 }
