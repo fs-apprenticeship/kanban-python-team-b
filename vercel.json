@@ -1,22 +1,21 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
+    "version": 2,
     "builds": [
+        {
+            "src": "vercel_build.sh",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "staticfiles"
+            }
+        },
         {
             "src": "kanban/wsgi.py",
             "use": "@vercel/python",
             "config": { "maxLambdaSize": "15mb", "runtime": "python3.14" }
-        },
-        {
-            "src": "vercel_build.sh",
-            "use": "@vercel/static-build",
-            "config": { "distDir": "staticfiles" }
         }
     ],
     "routes": [
-        {
-            "src": "/static/(.*)",
-            "dest": "/staticfiles/$1"
-        },
         {
             "src": "/(.*)",
             "dest": "kanban/wsgi.py"
