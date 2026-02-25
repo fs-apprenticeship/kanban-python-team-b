@@ -1,4 +1,10 @@
 {
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "functions": {
+        "kanban/wsgi.py": {
+            "runtime": "@vercel/python"
+        }
+    },
     "rewrites": [
         {
             "source": "/static/(.*)",
