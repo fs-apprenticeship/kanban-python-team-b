@@ -8,6 +8,10 @@ on:
     branches:
       - master
 
+permissions:
+  contents: read
+  statuses: write
+
 jobs:
   migrate:
     runs-on: ubuntu-latest
