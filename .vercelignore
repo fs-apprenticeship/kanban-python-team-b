@@ -1,0 +1,17 @@
+__pycache__/
+.venv/
+env/
+venv/
+
+db.sqlite3
+db.sqlite3-journal
+
+.env
+.env.example
+
+.git/
+.github/
+
+.vercel/
+
+tests/
