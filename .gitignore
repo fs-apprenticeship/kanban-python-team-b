@@ -11,3 +11,5 @@ media
 .venv
 env/
 venv/
+
+.vercel
