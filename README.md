@@ -12,6 +12,7 @@ Make a file in the project root called ``.env`` (see: ``.env.example``)
 * ``SECRET_KEY`` (str) master key for cryptography
 * ``DEBUG`` (bool) debug mode, must be set to ``False`` in production
 * ``POSTGRES_DB``, ``POSTGRES_USER``, and ``POSTGRES_PASSWORD`` for database connection
+* ``DJANGO_SUPERUSER_EMAIL`` and ``DJANGO_SUPERUSER_PASSWORD`` for quick [superuser creation](https://docs.djangoproject.com/en/6.0/ref/django-admin/#django-admin-createsuperuser)
 
 #### Generate a ``SECRET_KEY`` in Python
 ```python
