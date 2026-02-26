@@ -87,11 +87,12 @@ WSGI_APPLICATION = "kanban.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": config("POSTGRES_DB"),
-        "USER": config("POSTGRES_USER"),
-        "PASSWORD": config("POSTGRES_PASSWORD"),
-        "HOST": config("POSTGRES_HOST", "localhost"),
-        "PORT": config("POSTGRES_PORT", "5432"),
+        "NAME": config("POSTGRES_DB", default=None) or config("PGDATABASE"),
+        "USER": config("POSTGRES_USER", default=None) or config("PGUSER"),
+        "PASSWORD": config("POSTGRES_PASSWORD", default=None) or config("PGPASSWORD"),
+        "HOST": config("POSTGRES_HOST", default=None)
+        or config("PGHOST", default="localhost"),
+        "PORT": config("POSTGRES_PORT", default="5432"),
     }
 }
 
