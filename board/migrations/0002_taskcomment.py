@@ -8,20 +8,41 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('board', '0001_initial'),
+        ("board", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='TaskComment',
+            name="TaskComment",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('content', models.TextField(blank=True)),
-                ('created_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('task', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='board.task')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='task_comments', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("content", models.TextField(blank=True)),
+                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                (
+                    "task",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="comments",
+                        to="board.task",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="task_comments",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

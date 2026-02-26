@@ -21,6 +21,13 @@ print(get_random_secret_key())
 ```
 > Note: For development you can just use ``some-string``, but in production it's recommended to generate an actual key.
 
+### Git hooks
+It's recommended to use Git hooks for code quality assurance.
+
+Install tool: ``uv tool install pre-commit --with pre-commit-uv --force-reinstall``
+
+Install hooks: ``uvx pre-commit install``
+
 ## Development
 Start db container: ``docker compose up -d``
 
