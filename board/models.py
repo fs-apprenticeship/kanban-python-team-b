@@ -1,7 +1,12 @@
 import uuid
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    PermissionsMixin,
+    BaseUserManager,
+)
+
 
 # =========================================================
 # Custom User Manager
@@ -24,6 +29,7 @@ class UserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
+
 # =========================================================
 # Role (Lookup Table)
 # =========================================================
@@ -39,6 +45,7 @@ class Role(models.Model):
     def __str__(self):
         return self.name
 
+
 # =========================================================
 # Custom User Model
 # =========================================================
@@ -50,11 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=150)
 
     role = models.ForeignKey(
-        Role,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="users"
+        Role, on_delete=models.SET_NULL, null=True, blank=True, related_name="users"
     )
 
     is_active = models.BooleanField(default=True)
@@ -69,6 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
 
 # =========================================================
 # Status (Lookup Table)
@@ -85,6 +89,7 @@ class Status(models.Model):
     def __str__(self):
         return self.name
 
+
 # =========================================================
 # Team
 # =========================================================
@@ -97,28 +102,22 @@ class Team(models.Model):
     def __str__(self):
         return self.name
 
+
 # =========================================================
 # Team Members (Join Table)
 # =========================================================
 class TeamMember(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    team = models.ForeignKey(
-        Team,
-        on_delete=models.CASCADE,
-        related_name="members"
-    )
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="teams"
-    )
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, related_name="members")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="teams")
 
     class Meta:
         unique_together = ("team", "user")
 
     def __str__(self):
         return f"{self.user.email} - {self.team.name}"
+
 
 # =========================================================
 # Project
@@ -133,6 +132,7 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
+
 # =========================================================
 # Project-Team Join Table
 # =========================================================
@@ -140,14 +140,10 @@ class ProjectTeam(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     project = models.ForeignKey(
-        Project,
-        on_delete=models.CASCADE,
-        related_name="project_teams"
+        Project, on_delete=models.CASCADE, related_name="project_teams"
     )
     team = models.ForeignKey(
-        Team,
-        on_delete=models.CASCADE,
-        related_name="team_projects"
+        Team, on_delete=models.CASCADE, related_name="team_projects"
     )
 
     class Meta:
@@ -156,34 +152,24 @@ class ProjectTeam(models.Model):
     def __str__(self):
         return f"{self.project.name} - {self.team.name}"
 
+
 # =========================================================
 # Task
 # =========================================================
 class Task(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    project = models.ForeignKey(
-        Project,
-        on_delete=models.CASCADE,
-        related_name="tasks"
-    )
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="tasks")
 
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
     created_by = models.ForeignKey(
-        User,
-        on_delete=models.SET_NULL,
-        null=True,
-        related_name="created_tasks"
+        User, on_delete=models.SET_NULL, null=True, related_name="created_tasks"
     )
 
     status = models.ForeignKey(
-        Status,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name="tasks"
+        Status, on_delete=models.SET_NULL, null=True, blank=True, related_name="tasks"
     )
 
     created_at = models.DateTimeField(default=timezone.now)
@@ -192,6 +178,7 @@ class Task(models.Model):
     def __str__(self):
         return self.title
 
+
 # =========================================================
 # Task Assignee (Join Table)
 # =========================================================
@@ -199,14 +186,10 @@ class TaskAssignee(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     task = models.ForeignKey(
-        Task,
-        on_delete=models.CASCADE,
-        related_name="task_assignees"
+        Task, on_delete=models.CASCADE, related_name="task_assignees"
     )
     user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="task_assignments"
+        User, on_delete=models.CASCADE, related_name="task_assignments"
     )
 
     class Meta:
