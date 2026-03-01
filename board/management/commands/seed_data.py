@@ -8,6 +8,7 @@ from board.models import (
     Team,
     TeamMember,
     Project,
+    ProjectTeam,
     Task,
     TaskAssignee,
 )
@@ -68,11 +69,12 @@ class Command(BaseCommand):
         TeamMember.objects.get_or_create(team=team, user=admin_user)
         TeamMember.objects.get_or_create(team=team, user=apprentice_user)
 
-        # Create Projects
+        # Create Project
         project1, _ = Project.objects.get_or_create(
             name="Kanban MVP",
             defaults={"description": "Build main page and core workflow."},
         )
+        ProjectTeam.objects.get_or_create(project=project1, team=team)
 
         # Create Statuses
         todo, _ = Status.objects.get_or_create(
