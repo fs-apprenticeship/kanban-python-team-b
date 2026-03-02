@@ -1,39 +1,43 @@
 {% load static %}
-<form method="post" action="{% url 'board:login' %}" hx-target="this" hx-swap="outerHTML" class="login-form">
-  {% csrf_token %}
-  {% if form.non_field_errors %}
-    <div class="errorlist nonfield">
-      {{ form.non_field_errors }}
-    </div>
-  {% endif %}
-
-  <div class="form-group">
-    <label for="{{ form.username.id_for_label }}">
-      <i class="icon email-icon">📧</i> Email
-    </label>
-    <div class="input-wrapper">
-      {{ form.username }}
-    </div>
-    {% if form.username.errors %}
-      <div class="errorlist">
-        {{ form.username.errors }}
-      </div>
+<form hx-post="{% url 'board:login' %}"
+      hx-target="this"
+      hx-swap="outerHTML"
+      hx-disabled-elt="find button"
+      class="login-form">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="errorlist nonfield">
+            {{ form.non_field_errors }}
+        </div>
     {% endif %}
-  </div>
 
-  <div class="form-group">
-    <label for="{{ form.password.id_for_label }}">
-      <i class="icon password-icon">🔒</i> Password
-    </label>
-    <div class="input-wrapper password-wrapper">
-      {{ form.password }}
+    <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">
+            <i class="icon email-icon">📧</i> Email
+        </label>
+        <div class="input-wrapper">
+            {{ form.username }}
+        </div>
+        {% if form.username.errors %}
+            <div class="errorlist">
+                {{ form.username.errors }}
+            </div>
+        {% endif %}
     </div>
-    {% if form.password.errors %}
-      <div class="errorlist">
-        {{ form.password.errors }}
-      </div>
-    {% endif %}
-  </div>
 
-  <button type="submit" class="login-button">Log in</button>
+    <div class="form-group">
+        <label for="{{ form.password.id_for_label }}">
+            <i class="icon password-icon">🔒</i> Password
+        </label>
+        <div class="input-wrapper password-wrapper">
+            {{ form.password }}
+        </div>
+        {% if form.password.errors %}
+            <div class="errorlist">
+                {{ form.password.errors }}
+            </div>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="login-button">Log in</button>
 </form>

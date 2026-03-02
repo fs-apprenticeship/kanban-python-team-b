@@ -1,8 +1,7 @@
 from django.contrib.auth import logout as _logout, authenticate, login as _login
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django import forms
-
+from .forms import LoginForm
 
 def index(request):
     if not request.user.is_authenticated:
@@ -14,11 +13,6 @@ def logout(request):
     if request.user.is_authenticated:
         _logout(request)
     return redirect(reverse("board:index"))
-
-# login form that uses email and password for authentication.
-class LoginForm(forms.Form):
-    username = forms.EmailField(label="Email")
-    password = forms.CharField(widget=forms.PasswordInput)
 
 
 def login(request):
