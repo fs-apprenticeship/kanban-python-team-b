@@ -1,18 +1,27 @@
-from django.contrib.auth import logout as _logout
+from django.views.decorators.cache import never_cache
+from board.models import Project, Task
+from .forms import LoginForm
+from django.contrib.auth import logout as _logout, authenticate, login as _login
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from board.models import Project, Task
-
+from django_htmx.http import HttpResponseClientRedirect
 
 # Constant Status Columns
 KANBAN_COLUMNS = ["TODO", "DOING", "DONE"]
 
+def _no_cache_response(response):
+    """
+    Add headers to prevent browser back-button caching.
+    """
+    response["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response["Pragma"] = "no-cache"
+    response["Expires"] = "0"
+    return response
 
+@never_cache
 def index(request):
     if not request.user.is_authenticated:
-        # TODO: replace with board:login once created
-        return redirect(reverse("admin:login"))
-
+        return redirect(reverse("board:login"))
     # Logged-in user
     user = request.user
 
@@ -49,8 +58,50 @@ def index(request):
 
     return render(request, "board/index.html", context)
 
-
 def logout(request):
     if request.user.is_authenticated:
         _logout(request)
     return redirect(reverse("board:index"))
+
+def login(request):
+    if request.user.is_authenticated:
+        return redirect(reverse("board:index"))
+
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            user = authenticate(
+                request,
+                username=form.cleaned_data["username"],
+                password=form.cleaned_data["password"],
+            )
+
+            if user is not None:
+                _login(request, user)
+                redirect_url = reverse("board:index")
+                if getattr(request, "htmx", False):
+                    return HttpResponseClientRedirect(redirect_url)
+
+                response = redirect(redirect_url)
+                return _no_cache_response(response)
+
+            else:
+                form.add_error(None, "Invalid email or password.")
+
+    else:
+        form = LoginForm()
+
+    template_name = (
+        "board/partials/login_form.html"
+        if getattr(request, "htmx", False)
+        else "board/login.html"
+    )
+
+    response = render(
+        request,
+        template_name,
+        {"form": form},
+    )
+
+    return _no_cache_response(response)
