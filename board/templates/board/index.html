@@ -93,7 +93,7 @@
                 <header><strong>DONE</strong></header>
 
                 <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
-                    {% for task in tasks_by_status.DOING %}
+                    {% for task in tasks_by_status.DONE %}
                     <article style="margin: 0;">
                         <header style="padding-bottom: .25rem;">
                             <strong>{{ task.title }}</strong>
@@ -106,23 +106,7 @@
                     {% endfor %}
                 </div>
             </article>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         </div>
-
     </section>
 
 </main>
