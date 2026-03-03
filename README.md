@@ -33,4 +33,6 @@ Start db container: ``docker compose up -d``
 
 Apply migrations to db: ``uv run manage.py migrate``
 
+Seed db: ``uv run manage.py seed_data``
+
 Run dev server: ``uv run manage.py runserver``
