@@ -3,5 +3,112 @@
 
 {% block content %}
 <!-- TODO: -->
-<p>Hello, world!</p>
+
+<main class="container">
+
+    <header>
+        <hgroup>
+            <h1>My Tasks</h1>
+            <p>Projects you belong to and tasks assigned to you.</p>
+        </hgroup>
+    </header>
+
+    <!-- Project (Pico Table) -->
+     <section aria-label="Projects">
+        <h2>Projects</h2>
+
+        {% if projects %}
+        <figure>
+            <table role="grid">
+                <thead>
+                    <tr>
+                        <th scope="col">Project</th>
+                        <th scope="col">Summary</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for project in projects %}
+                    <tr>
+                        <td><strong>{{ project.name }} </strong></td>
+                        <td>{{ project.description|default:"-" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </figure>
+
+        {% else %}
+        <article>
+            <p>No projects found.</p>
+        </article>
+
+        {% endif %}
+    </section>
+
+    <section aria-label="My Tasks">
+        <h2>Tasks</h2>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+
+            <!-- TODO COLUMN -->
+            <article>
+                <header><strong>TODO</strong></header>
+
+                <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
+                    {% for task in tasks_by_status.TODO %}
+                    <article style="margin: 0;">
+                        <header style="padding-bottom: .25rem;">
+                            <strong>{{ task.title }}</strong>
+                            <small>{{ task.project.name }}</small>
+                        </header>
+                        <p style="margin: 0">{{ task.description|default:"-" }}</p>
+                    </article>
+                    {% empty %}
+                    <p><small>No TODO tasks.</small></p>
+                    {% endfor %}
+                </div>
+            </article>
+
+            <!-- DOING COLUMN -->
+            <article>
+                <header><strong>DOING</strong></header>
+
+                <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
+                    {% for task in tasks_by_status.DOING %}
+                    <article style="margin: 0;">
+                        <header style="padding-bottom: .25rem;">
+                            <strong>{{ task.title }}</strong>
+                            <small>{{ task.project.name }}</small>
+                        </header>
+                        <p style="margin: 0">{{ task.description|default:"-" }}</p>
+                    </article>
+                    {% empty %}
+                    <p><small>No DOING tasks.</small></p>
+                    {% endfor %}
+                </div>
+            </article>
+
+            <!-- DONE COLUMN -->
+            <article>
+                <header><strong>DONE</strong></header>
+
+                <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
+                    {% for task in tasks_by_status.DONE %}
+                    <article style="margin: 0;">
+                        <header style="padding-bottom: .25rem;">
+                            <strong>{{ task.title }}</strong>
+                            <small>{{ task.project.name }}</small>
+                        </header>
+                        <p style="margin: 0">{{ task.description|default:"-" }}</p>
+                    </article>
+                    {% empty %}
+                    <p><small>No DONE tasks.</small></p>
+                    {% endfor %}
+                </div>
+            </article>
+        </div>
+    </section>
+
+</main>
+
 {% endblock %}
