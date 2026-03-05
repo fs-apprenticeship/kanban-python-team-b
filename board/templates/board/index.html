@@ -55,7 +55,12 @@
 
                 <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
                     {% for task in tasks_by_status.TODO %}
-                    <article style="margin: 0;">
+                    <article
+                    style="margin: 0;"
+                    hx-get="{% url 'board:task-modal' task.id %}"
+                    hx-target="#modal-slot"
+                    hx-sawp="innerHTML"
+                    >
                         <header style="padding-bottom: .25rem;">
                             <strong>{{ task.title }}</strong>
                             <small>{{ task.project.name }}</small>
@@ -74,7 +79,12 @@
 
                 <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
                     {% for task in tasks_by_status.DOING %}
-                    <article style="margin: 0;">
+                    <article
+                    style="margin: 0;"
+                    hx-get="{% url 'board:task-modal' task.id %}"
+                    hx-target="#modal-slot"
+                    hx-sawp="innerHTML"
+                    >
                         <header style="padding-bottom: .25rem;">
                             <strong>{{ task.title }}</strong>
                             <small>{{ task.project.name }}</small>
@@ -93,7 +103,12 @@
 
                 <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
                     {% for task in tasks_by_status.DONE %}
-                    <article style="margin: 0;">
+                    <article
+                    style="margin: 0;"
+                    hx-get="{% url 'board:task-modal' task.id %}"
+                    hx-target="#modal-slot"
+                    hx-sawp="innerHTML"
+                    >
                         <header style="padding-bottom: .25rem;">
                             <strong>{{ task.title }}</strong>
                             <small>{{ task.project.name }}</small>
@@ -107,6 +122,8 @@
             </article>
         </div>
     </section>
+
+    <div id="modal-slot"></div>
 
 </main>
 
