@@ -4,7 +4,7 @@ from .forms import LoginForm
 from django.contrib.auth import logout as _logout, authenticate, login as _login
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from django_htmx.http import HttpResponseClientRedirect
+from django_htmx.http import HttpResponseClientRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 
 # Constant Status Columns
@@ -118,3 +118,7 @@ def task_modal(request, task_id):
         Task.objects.filter(task_assignees__user=request.user), pk=task_id
     )
     return render(request, "board/partials/task_modal.html", {"task": task})
+
+
+def task_modal_close(request):
+    return HttpResponse("")
