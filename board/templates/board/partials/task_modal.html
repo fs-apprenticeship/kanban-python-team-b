@@ -1,0 +1,46 @@
+{# board/templates/board/partials/task_modal.html #}
+{# Expects: task in context #}
+
+<dialog open aria-labelledby="task-modal-title-{{ task.id }}">
+  <article>
+    <header>
+      <a href="#close"
+         aria-label="Close"
+         class="close">
+      </a>
+
+      <h3 id="task-modal-title-{{ task.id }}">
+        {{ task.title }}
+      </h3>
+    </header>
+
+    {% if task.description %}
+      <p>{{ task.description }}</p>
+    {% else %}
+      <p><em>No description provided.</em></p>
+    {% endif %}
+
+    <hr>
+
+    <p>
+      <strong>Status:</strong>
+      {{ task.get_status_display|default:task.status }}
+    </p>
+
+    <p>
+      <strong>Assignee:</strong>
+      {# We'll keep this defensive since model naming can vary #}
+      {% if task.assignee %}
+        {{ task.assignee.get_full_name|default:task.assignee }}
+      {% elif task.assigned_to %}
+        {{ task.assigned_to.get_full_name|default:task.assigned_to }}
+      {% else %}
+        <em>Unassigned</em>
+      {% endif %}
+    </p>
+
+    <footer>
+      <a href="#close" role="button" class="secondary">Close</a>
+    </footer>
+  </article>
+</dialog>
