@@ -2,12 +2,14 @@ from django.views.decorators.cache import never_cache
 from board.models import Project, Task
 from .forms import LoginForm
 from django.contrib.auth import logout as _logout, authenticate, login as _login
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django_htmx.http import HttpResponseClientRedirect
+from django.contrib.auth.decorators import login_required
 
 # Constant Status Columns
 KANBAN_COLUMNS = ["TODO", "DOING", "DONE"]
+
 
 def _no_cache_response(response):
     """
@@ -17,6 +19,7 @@ def _no_cache_response(response):
     response["Pragma"] = "no-cache"
     response["Expires"] = "0"
     return response
+
 
 @never_cache
 def index(request):
@@ -58,10 +61,12 @@ def index(request):
 
     return render(request, "board/index.html", context)
 
+
 def logout(request):
     if request.user.is_authenticated:
         _logout(request)
     return redirect(reverse("board:index"))
+
 
 def login(request):
     if request.user.is_authenticated:
@@ -105,3 +110,11 @@ def login(request):
     )
 
     return _no_cache_response(response)
+
+
+@login_required
+def task_modal(request, task_id):
+    task = get_object_or_404(
+        Task.objects.filter(task_assignees__user=request.user), pk=task_id
+    )
+    return render(request, "board/partials/task_modal.html", {"task": task})
