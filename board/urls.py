@@ -9,4 +9,5 @@ urlpatterns = [
     path("login/", views.login, name="login"),
     path("logout/", views.logout, name="logout"),
     path("tasks/<uuid:task_id>/modal/", views.task_modal, name="task-modal"),
+    path("tasks/modal/close/", views.task_modal_close, name="task-modal-close"),
 ]
