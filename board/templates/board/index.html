@@ -62,10 +62,6 @@
                         </header>
                         <p style="margin: 0">{{ task.description|default:"-" }}</p>
                     </article>
-
-                    <!-- Temp verification renders an open modal per task -->
-                    {% include "board/partials/task_modal.html" with task=task %}
-
                     {% empty %}
                     <p><small>No TODO tasks.</small></p>
                     {% endfor %}
@@ -85,10 +81,6 @@
                         </header>
                         <p style="margin: 0">{{ task.description|default:"-" }}</p>
                     </article>
-
-                    <!-- Temp verification renders an open modal per task -->
-                    {% include "board/partials/task_modal.html" with task=task %}
-
                     {% empty %}
                     <p><small>No DOING tasks.</small></p>
                     {% endfor %}
@@ -108,10 +100,6 @@
                         </header>
                         <p style="margin: 0">{{ task.description|default:"-" }}</p>
                     </article>
-
-                    <!-- Temp verification renders an open modal per task -->
-                    {% include "board/partials/task_modal.html" with task=task %}
-
                     {% empty %}
                     <p><small>No DONE tasks.</small></p>
                     {% endfor %}
