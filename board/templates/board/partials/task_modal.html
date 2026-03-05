@@ -4,9 +4,15 @@
 <dialog open aria-labelledby="task-modal-title-{{ task.id }}">
   <article>
     <header>
-      <a href="#close"
-         aria-label="Close"
-         class="close">
+      <a h
+      ref="#"
+      aria-label="Close"
+      class="close"
+      hx-get="{% url 'board:task-modal-close' %}"
+      hx-target="#modal-slot"
+      hx-swap="innerHTML"
+      >
+
       </a>
 
       <h3 id="task-modal-title-{{ task.id }}">
@@ -40,7 +46,16 @@
     </p>
 
     <footer>
-      <a href="#close" role="button" class="secondary">Close</a>
+      <a
+      href="#"
+      role="button"
+      class="secondary"
+      hx-get="{% url 'board:task-modal-close' %}"
+      hx-target="#modal-slot"
+      hx-swap="innerHTML"
+      >
+      Close
+    </a>
     </footer>
   </article>
 </dialog>
