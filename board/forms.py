@@ -13,6 +13,7 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["email", "first_name", "last_name"]
+        widgets = {"email": forms.EmailInput(attrs={"required": True})}
 
     def clean_email(self):
         email = self.cleaned_data["email"].strip().lower()
