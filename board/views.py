@@ -120,10 +120,12 @@ def task_modal(request, task_id):
     return render(request, "board/partials/task_modal.html", {"task": task})
 
 
+@login_required
 def task_modal_close(request):
     return HttpResponse("")
 
 
+@login_required
 def profile(request):
     if request.method == "POST":
         form = ProfileForm(request.POST, instance=request.user)
