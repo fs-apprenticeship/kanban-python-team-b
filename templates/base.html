@@ -43,7 +43,7 @@
                     {% if request.user.is_staff %}
                     <li><a href="{% url 'admin:index' %}">Admin</a></li>
                     {% endif %}
-                    <li><a href="">Profile</a></li>
+                    <li><a href="{% url 'board:profile' %}">Profile</a></li>
                     <li><a href="{% url 'board:logout' %}">Logout</a></li>
                     {% else %}
                     <!-- TODO: replace with board:login view once created -->
