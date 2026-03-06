@@ -1,0 +1,47 @@
+{% if success_message %}
+<article>
+    <p>{{ success_message }}</p>
+</article>
+{% endif %}
+
+<form
+    hx-post="{% url 'profile' %}"
+    hx-target="#profile-form-slot"
+    hx-swap="innerHTML"
+>
+
+    {% csrf_token %}
+
+    <label for="{{ form.email.id_for_label }}">
+        Email
+        {{ form.email }}
+    </label>
+
+    {% if form.email.errors %}
+        <small style="color: red;">{{ form.email.errors|join:", " }}</small>
+    {% endif %}
+
+    <label for="{{ form.first_name.id_for_label }}">
+        First name
+        {{ form.first_name }}
+    </label>
+
+    {% if form.first_name.errors %}
+        <small style="color: red;">{{ form.first_name.errors|join:", " }}</small>
+    {% endif %}
+
+    <label for="{{ form.last_name.id_for_label }}">
+        Last name
+        {{ form.last_name }}
+    </label>
+
+    {% if form.last_name.errors %}
+        <small style="color: red;">{{ form.last_name.errors|join:", " }}</small>
+    {% endif %}
+
+    {% if form.non_field_errors %}
+        <small style="color: red;">{{ form.non_field_errors|join:", "}}</small>
+    {% endif %}
+
+    <button type="submit">Save Profile</button>
+</form>
