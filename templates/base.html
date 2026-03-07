@@ -1,6 +1,6 @@
 {% load django_htmx %}
 <!DOCTYPE html>
-<html lang="en">Update
+<html lang="en">
     <head>
         {% load static %}
         <!-- META -->
@@ -20,6 +20,17 @@
         {% block styles %}{% endblock %}
         <!-- ASYNC/DEFER SCRIPTS -->
         {% htmx_script %}
+
+        <script>
+            htmx.config.responseHandling = [
+                {"code":"422", "swap": true},
+                {"code":"204", "swap": false},
+                {"code":"[23]..", "swap": true},
+                {"code":"[45]..", "swap": false, "error": true},
+                {"code":"...", "swap": false}
+            ]
+        </script>
+
         {% block head_scripts %}{% endblock %}
         <!-- TITLE -->
         <title>{% block title %}Kanban{% endblock %}</title>
@@ -43,7 +54,15 @@
                     {% if request.user.is_staff %}
                     <li><a href="{% url 'admin:index' %}">Admin</a></li>
                     {% endif %}
-                    <li><a href="{% url 'board:profile' %}">Profile</a></li>
+                    <li>
+                        <a
+                            href="{% url 'board:profile' %}"
+                            {% if request.resolver_match.url_name == 'profile' %}aria-current="page"{% endif %}
+                        >
+                            Profile
+
+                        </a>
+                    </li>
                     <li><a href="{% url 'board:logout' %}">Logout</a></li>
                     {% else %}
                     <!-- TODO: replace with board:login view once created -->
