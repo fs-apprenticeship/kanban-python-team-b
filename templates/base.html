@@ -7,6 +7,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, inital-scale=1.0">
         <meta name="color-scheme" content="light dark">
+        <meta name="htmx-config"
+            content='{
+                "responseHandling" = [
+                    {"code":"422", "swap": true},
+                    {"code":"204", "swap": false},
+                    {"code":"[23]..", "swap": true},
+                    {"code":"[45]..", "swap": false, "error": true},
+                    {"code":"...", "swap": false}
+                ]
+            }'
+        />
         <!-- STYLE/CSS -->
         <link
             rel="stylesheet"
@@ -20,16 +31,6 @@
         {% block styles %}{% endblock %}
         <!-- ASYNC/DEFER SCRIPTS -->
         {% htmx_script %}
-
-        <script>
-            htmx.config.responseHandling = [
-                {"code":"422", "swap": true},
-                {"code":"204", "swap": false},
-                {"code":"[23]..", "swap": true},
-                {"code":"[45]..", "swap": false, "error": true},
-                {"code":"...", "swap": false}
-            ]
-        </script>
 
         {% block head_scripts %}{% endblock %}
         <!-- TITLE -->
