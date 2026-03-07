@@ -1,6 +1,12 @@
+# Kanban
+![Python Version from PEP 621 TOML](https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Ffs-apprenticeship%2Fkanban-python-team-b%2Fmaster%2Fpyproject.toml)
+[![Tests](https://github.com/fs-apprenticeship/kanban-python-team-b/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/fs-apprenticeship/kanban-python-team-b/actions/workflows/ci.yml)
+
+Kanban implementation using Django with htmx.
+
 ## Setup
 ### Requirements
-* Python 3.12+ via ``uv`` (see: [Installing uv](https://docs.astral.sh/uv/getting-started/installation/))
+* Python via ``uv`` (see: [Installing uv](https://docs.astral.sh/uv/getting-started/installation/))
 * Docker and Docker Compose
 
 ### Dependencies
