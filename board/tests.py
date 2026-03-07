@@ -134,8 +134,8 @@ class ProfileTest(TestCase):
             follow=False,
         )
 
-        self.assertEqual(response.status_code, 400)
-        self.assertContains(response, "This field is required.", status_code=400)
+        self.assertEqual(response.status_code, 422)
+        self.assertContains(response, "This field is required.", status_code=422)
 
         self.user.refresh_from_db()
         self.assertEqual(self.user.email, self.email)
