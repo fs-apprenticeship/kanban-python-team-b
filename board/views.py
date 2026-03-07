@@ -139,7 +139,7 @@ def profile(request):
             )
 
         return render(
-            request, "board/partials/profile_form.html", {"form": form}, status=400
+            request, "board/partials/profile_form.html", {"form": form}, status=422
         )
 
     form = ProfileForm(instance=request.user)
