@@ -1,6 +1,6 @@
 from django.views.decorators.cache import never_cache
 from board.models import Project, Task
-from .forms import LoginForm
+from .forms import LoginForm, ProfileForm
 from django.contrib.auth import logout as _logout, authenticate, login as _login
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -120,5 +120,28 @@ def task_modal(request, task_id):
     return render(request, "board/partials/task_modal.html", {"task": task})
 
 
+@login_required
 def task_modal_close(request):
     return HttpResponse("")
+
+
+@login_required
+def profile(request):
+    if request.method == "POST":
+        form = ProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            return render(
+                request,
+                "board/partials/profile_form.html",
+                {"form": form, "success_message": "Profile updated successfully."},
+            )
+
+        return render(
+            request, "board/partials/profile_form.html", {"form": form}, status=422
+        )
+
+    form = ProfileForm(instance=request.user)
+
+    return render(request, "board/profile.html", {"form": form})

@@ -7,6 +7,17 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, inital-scale=1.0">
         <meta name="color-scheme" content="light dark">
+        <meta name="htmx-config"
+            content='{
+                "responseHandling": [
+                    {"code":"422", "swap": true},
+                    {"code":"204", "swap": false},
+                    {"code":"[23]..", "swap": true},
+                    {"code":"[45]..", "swap": false, "error": true},
+                    {"code":"...", "swap": false}
+                ]
+            }'
+        />
         <!-- STYLE/CSS -->
         <link
             rel="stylesheet"
@@ -20,6 +31,7 @@
         {% block styles %}{% endblock %}
         <!-- ASYNC/DEFER SCRIPTS -->
         {% htmx_script %}
+
         {% block head_scripts %}{% endblock %}
         <!-- TITLE -->
         <title>{% block title %}Kanban{% endblock %}</title>
@@ -43,7 +55,15 @@
                     {% if request.user.is_staff %}
                     <li><a href="{% url 'admin:index' %}">Admin</a></li>
                     {% endif %}
-                    <li><a href="">Profile</a></li>
+                    <li>
+                        <a
+                            href="{% url 'board:profile' %}"
+                            {% if request.resolver_match.url_name == 'profile' %}aria-current="page"{% endif %}
+                        >
+                            Profile
+
+                        </a>
+                    </li>
                     <li><a href="{% url 'board:logout' %}">Logout</a></li>
                     {% else %}
                     <!-- TODO: replace with board:login view once created -->
