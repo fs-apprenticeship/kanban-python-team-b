@@ -1,6 +1,7 @@
 from django.views.decorators.cache import never_cache
-from board.models import Project, Task
-from .forms import LoginForm, ProfileForm
+from django.db.models import Q
+from board.models import Project, Task, Status
+from .forms import LoginForm, ProfileForm, AddTaskForm
 from django.contrib.auth import logout as _logout, authenticate, login as _login
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
@@ -114,9 +115,11 @@ def login(request):
 
 @login_required
 def task_modal(request, task_id):
-    task = get_object_or_404(
-        Task.objects.filter(task_assignees__user=request.user), pk=task_id
-    )
+    tasks = Task.objects.filter(
+        Q(task_assignees__user=request.user)
+        | Q(project__project_teams__team__members__user=request.user)
+    ).distinct().prefetch_related('task_assignees__user')
+    task = get_object_or_404(tasks, pk=task_id)
     return render(request, "board/partials/task_modal.html", {"task": task})
 
 
@@ -145,3 +148,71 @@ def profile(request):
     form = ProfileForm(instance=request.user)
 
     return render(request, "board/profile.html", {"form": form})
+
+
+def _project_tasks_context(project, add_task_form=None):
+    tasks = (
+        Task.objects.filter(project=project)
+        .select_related("project", "status")
+        .prefetch_related("task_assignees")
+        .order_by("-updated_at")
+    )
+
+    tasks_by_kind = {"UNASSIGNED": [], "ASSIGNED": [], "INPROGRESS": [], "COMPLETED": []}
+
+    for task in tasks:
+        status_name = (task.status.name if task.status else "TODO").upper()
+        if status_name == "DONE":
+            tasks_by_kind["COMPLETED"].append(task)
+        elif status_name == "DOING":
+            tasks_by_kind["INPROGRESS"].append(task)
+        else:
+            if task.task_assignees.exists():
+                tasks_by_kind["ASSIGNED"].append(task)
+            else:
+                tasks_by_kind["UNASSIGNED"].append(task)
+
+    if add_task_form is None:
+        add_task_form = AddTaskForm(initial={"project": project.id, "status": "TODO"})
+
+    return {"project": project, "tasks_by_kind": tasks_by_kind, "add_task_form": add_task_form}
+
+
+@login_required
+def project(request, project_id):
+    project_obj = get_object_or_404(
+        Project.objects.filter(
+            project_teams__team__members__user=request.user,
+            is_archived=False,
+        ).distinct(),
+        pk=project_id,
+    )
+
+    if request.method == "POST":
+        form = AddTaskForm(request.POST)
+        if form.is_valid() and form.cleaned_data["project"] == project_obj.id:
+            status_obj = Status.objects.filter(name=form.cleaned_data["status"]).first()
+            Task.objects.create(
+                project=project_obj,
+                title=form.cleaned_data["title"],
+                description=form.cleaned_data["description"] or "",
+                status=status_obj,
+                created_by=request.user,
+            )
+            ctx = _project_tasks_context(project_obj)
+            return render(
+                request,
+                "board/partials/project_tasks.html",
+                ctx,
+            )
+        ctx = _project_tasks_context(project_obj, add_task_form=form)
+        return render(
+            request,
+            "board/partials/project_tasks.html",
+            ctx,
+            status=422,
+        )
+
+    ctx = _project_tasks_context(project_obj)
+    ctx["project"] = project_obj
+    return render(request, "board/project.html", ctx)

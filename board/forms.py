@@ -24,3 +24,18 @@ class ProfileForm(forms.ModelForm):
             raise forms.ValidationError("This email is already in use.")
 
         return email
+
+
+class AddTaskForm(forms.Form):
+    STATUS_CHOICES = [("TODO", "TODO"), ("DOING", "DOING"), ("DONE", "DONE")]
+
+    title = forms.CharField(
+        max_length=255,
+        required=True,
+        widget=forms.TextInput(attrs={"placeholder": "New task..."}),
+    )
+    description = forms.CharField(required=False, empty_value="", max_length=2000)
+    project = forms.UUIDField(required=True, widget=forms.HiddenInput())
+    status = forms.ChoiceField(
+        choices=STATUS_CHOICES, required=True, widget=forms.HiddenInput()
+    )

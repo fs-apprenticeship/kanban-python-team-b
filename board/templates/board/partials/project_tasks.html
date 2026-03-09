@@ -1,0 +1,120 @@
+{# board/partials/project_tasks.html #}
+{# Expects: project, tasks_by_kind, add_task_form #}
+
+<section aria-label="Project Tasks">
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+
+        <!-- UNASSIGNED -->
+        <article>
+            <header><strong>Unassigned</strong></header>
+
+            <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
+                {% for task in tasks_by_kind.UNASSIGNED %}
+                    <article style="margin: 0;" hx-get="{% url 'board:task-modal' task.id %}" hx-target="#modal-slot"
+                             hx-swap="innerHTML">
+                        <header style="padding-bottom: .25rem;">
+                            <strong>{{ task.title }}</strong>
+                            <small>{{ task.project.name }}</small>
+                        </header>
+                        <p style="margin: 0">{{ task.description|default:"-" }}</p>
+                    </article>
+                {% empty %}
+                    <p><small>No unassigned tasks.</small></p>
+                {% endfor %}
+            </div>
+
+            <form id="add-task"
+                  hx-post="{% url 'board:project' project.id %}"
+                  hx-target="#project-tasks"
+                  hx-swap="innerHTML"
+                  hx-disabled-elt="find button"
+                  style="margin-top: .75rem; display: grid; gap: .5rem;">
+                {% csrf_token %}
+                {{ add_task_form.project }}
+                {{ add_task_form.status }}
+                <div>
+                    {{ add_task_form.title }}
+                    {% if add_task_form.title.errors %}
+                        <div class="errorlist">{{ add_task_form.title.errors }}</div>
+                    {% endif %}
+                    {% if add_task_form.non_field_errors %}
+                        <div class="errorlist nonfield">{{ add_task_form.non_field_errors }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit">Add</button>
+            </form>
+        </article>
+
+        <!-- ASSIGNED -->
+        <article>
+            <header><strong>Assigned</strong></header>
+
+            <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
+                {% for task in tasks_by_kind.ASSIGNED %}
+                    <article style="margin: 0;"
+                             hx-get="{% url 'board:task-modal' task.id %}"
+                             hx-target="#modal-slot"
+                             hx-swap="innerHTML"
+                    >
+                        <header style="padding-bottom: .25rem;">
+                            <strong>{{ task.title }}</strong>
+                            <small>{{ task.project.name }}</small>
+                        </header>
+                        <p style="margin: 0">{{ task.description|default:"-" }}</p>
+                    </article>
+                {% empty %}
+                    <p><small>No assigned tasks.</small></p>
+                {% endfor %}
+            </div>
+        </article>
+
+        <!-- IN PROGRESS -->
+        <article>
+            <header><strong>InProgress</strong></header>
+
+            <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
+                {% for task in tasks_by_kind.INPROGRESS %}
+                    <article
+                            style="margin: 0;"
+                            hx-get="{% url 'board:task-modal' task.id %}"
+                            hx-target="#modal-slot"
+                            hx-swap="innerHTML"
+                    >
+                        <header style="padding-bottom: .25rem;">
+                            <strong>{{ task.title }}</strong>
+                            <small>{{ task.project.name }}</small>
+                        </header>
+                        <p style="margin: 0">{{ task.description|default:"-" }}</p>
+                    </article>
+                {% empty %}
+                    <p><small>No in-progress tasks.</small></p>
+                {% endfor %}
+            </div>
+        </article>
+
+        <!-- COMPLETED -->
+        <article>
+            <header><strong>Completed</strong></header>
+
+            <div style="max-height: 420px; overflow-y: auto; display: grid; gap: .75rem;">
+                {% for task in tasks_by_kind.COMPLETED %}
+                    <article
+                            style="margin: 0;"
+                            hx-get="{% url 'board:task-modal' task.id %}"
+                            hx-target="#modal-slot"
+                            hx-swap="innerHTML"
+                    >
+                        <header style="padding-bottom: .25rem;">
+                            <strong>{{ task.title }}</strong>
+                            <small>{{ task.project.name }}</small>
+                        </header>
+                        <p style="margin: 0">{{ task.description|default:"-" }}</p>
+                    </article>
+                {% empty %}
+                    <p><small>No completed tasks.</small></p>
+                {% endfor %}
+            </div>
+        </article>
+
+    </div>
+</section>
