@@ -118,7 +118,7 @@ def task_modal(request, task_id):
     tasks = Task.objects.filter(
         Q(task_assignees__user=request.user)
         | Q(project__project_teams__team__members__user=request.user)
-    ).distinct()
+    ).distinct().prefetch_related('task_assignees__user')
     task = get_object_or_404(tasks, pk=task_id)
     return render(request, "board/partials/task_modal.html", {"task": task})
 
