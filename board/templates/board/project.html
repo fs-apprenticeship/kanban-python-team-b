@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}{{ project.name }} | Kanban{% endblock %}
+
+{% block content %}
+
+<main class="container">
+
+    <article aria-label="Project Card" style="margin-bottom: 1rem;">
+        <header>
+            <h2 style="margin-bottom: .25rem;">{{ project.name }}</h2>
+            <p style="margin: 0;">{{ project.description|default:"-" }}</p>
+        </header>
+    </article>
+
+    <div style="display: flex; justify-content: center; gap: .75rem; margin: 1rem 0;">
+        <a role="button" href="#add-task">Add New Task</a>
+        <a role="button" class="secondary" href="#" aria-disabled="true" onclick="return false;">Assign Task</a>
+    </div>
+
+    <div id="project-tasks">
+        {% include "board/partials/project_tasks.html" %}
+    </div>
+
+    <div id="modal-slot"></div>
+
+</main>
+
+{% endblock %}
