@@ -28,7 +28,7 @@
                 <tbody>
                     {% for project in projects %}
                     <tr>
-                        <td><strong>{{ project.name }} </strong></td>
+                        <td><strong><a href="{% url 'board:project' project.id %}">{{ project.name }}</a></strong></td>
                         <td>{{ project.description|default:"-" }}</td>
                     </tr>
                     {% endfor %}
@@ -59,7 +59,7 @@
                     style="margin: 0;"
                     hx-get="{% url 'board:task-modal' task.id %}"
                     hx-target="#modal-slot"
-                    hx-sawp="innerHTML"
+                    hx-swap="innerHTML"
                     >
                         <header style="padding-bottom: .25rem;">
                             <strong>{{ task.title }}</strong>
@@ -83,7 +83,7 @@
                     style="margin: 0;"
                     hx-get="{% url 'board:task-modal' task.id %}"
                     hx-target="#modal-slot"
-                    hx-sawp="innerHTML"
+                    hx-swap="innerHTML"
                     >
                         <header style="padding-bottom: .25rem;">
                             <strong>{{ task.title }}</strong>
@@ -107,7 +107,7 @@
                     style="margin: 0;"
                     hx-get="{% url 'board:task-modal' task.id %}"
                     hx-target="#modal-slot"
-                    hx-sawp="innerHTML"
+                    hx-swap="innerHTML"
                     >
                         <header style="padding-bottom: .25rem;">
                             <strong>{{ task.title }}</strong>
